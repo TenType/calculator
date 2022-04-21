@@ -7,7 +7,6 @@
         "outDir": "public/generated",
         "sourceMap": true,
         "noEmitOnError": true,
-        "watch": true,
         "strict": true,
         "removeComments": true,
     },
