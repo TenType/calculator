@@ -5,26 +5,33 @@ export const DEBUG = true;
 const box = document.getElementById('input')!;
 
 box.addEventListener('input', () => {
-    const value = (document.getElementById('input') as HTMLInputElement).value;
-    const [output, result] = runCode(value);
-    const resultObj = document.getElementById('result')!;
+  const value = (document.getElementById('input') as HTMLInputElement).value;
+  const [output, result] = runCode(value);
+  const resultObj = document.getElementById('result')!;
+
+  if (!result) {
+    resultObj.style.backgroundColor = 'lightcoral';
+    resultObj.style.fontWeight = 'normal';
+  } else {
+    resultObj.style.backgroundColor = 'lightgreen';
+    resultObj.style.fontWeight = 'bold';
+  }
+
+  if (value == '') {
+    resultObj.innerHTML = '';
+    resultObj.style.backgroundColor = 'lightgray';
+  } else {
     resultObj.innerHTML = `${output}`;
-    if (!result) {
-        resultObj.style.backgroundColor = 'lightcoral';
-        resultObj.style.fontWeight = 'normal';
-    } else {
-        resultObj.style.backgroundColor = 'lightgreen';
-        resultObj.style.fontWeight = 'bold';
-    }
+  }
 });
 
 function runCode(code: string) {
-    const compiler = new Compiler(code);
-    const result = compiler.compile();
+  const compiler = new Compiler(code);
+  const result = compiler.compile();
 
-    if (result) {
-        return [new VM(compiler.chunk).run(), true];
-    } else {
-        return [compiler.errors, false];
-    }
+  if (result) {
+    return [new VM(compiler.chunk).run(), true];
+  } else {
+    return [compiler.errors, false];
+  }
 }
